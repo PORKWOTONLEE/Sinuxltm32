@@ -23,9 +23,6 @@ TARGET = Test
 DEBUG = 1
 # optimization
 OPT = -Og
-# libraries type
-#HAL_LIB = 1
-STD_Lib = 1
 
 
 #######################################
@@ -37,7 +34,6 @@ BUILD_DIR = build
 ######################################
 # source
 ######################################
-ifdef HAL_LIB
 # C sources
 C_SOURCES =  \
 HAL_Libraries/Core/Src/main.c \
@@ -57,36 +53,6 @@ HAL_Libraries/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c \
 HAL_Libraries/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c \
 HAL_Libraries/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c \
 HAL_Libraries/Core/Src/system_stm32f1xx.c  
-else
-C_SOURCES =  \
-STD_Libraries/Core/Src/main.c \
-STD_Libraries/Core/Src/stm32f10x_it.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/misc.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_adc.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_bkp.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_can.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_cec.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_crc.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_dac.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_dbgmcu.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_dma.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_exti.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_flash.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_fsmc.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_gpio.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_i2c.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_iwdg.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_pwr.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_rcc.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_rtc.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_sdio.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_spi.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_tim.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_usart.c \
-STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_wwdg.c \
-STD_Libraries/Drivers/CMSIS/CM3/CoreSupport/core_cm3.c \
-STD_Libraries/Core/Src/system_stm32f10x.c 
-endif
 
 # ASM sources
 ASM_SOURCES =  \
@@ -131,7 +97,6 @@ MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
 # AS defines
 AS_DEFS = 
 
-ifdef HAL_LIB
 # C defines
 C_DEFS =  \
 -DUSE_HAL_DRIVER \
@@ -145,18 +110,6 @@ C_INCLUDES =  \
 -IHAL_Libraries/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy \
 -IHAL_Libraries/Drivers/CMSIS/Device/ST/STM32F1xx/Include \
 -IHAL_Libraries/Drivers/CMSIS/Include
-else
-# C defines
-C_DEFS =  \
--DUSE_STDPERIPH_DRIVER
-# AS includes
-AS_INCLUDES = 
-# C includes
-C_INCLUDES =  \
--ISTD_Libraries/Core/Inc \
--ISTD_Libraries/Drivers/CMSIS/CM3/CoreSupport \
--ISTD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Inc
-endif
 
 
 # compile gcc flags
