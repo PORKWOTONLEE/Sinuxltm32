@@ -19,9 +19,8 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f10x.h"
-#include "stm32f10x_gpio.h"
 #include <stdio.h>
+#include "userapp.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -65,7 +64,7 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
-    GPIO_ResetBits(GPIOB, GPIO_Pin_0);
+      userapp();
   }
 }
 

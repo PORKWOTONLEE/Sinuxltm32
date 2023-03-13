@@ -61,7 +61,10 @@ STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_tim.c \
 STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_usart.c \
 STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_wwdg.c \
 STD_Libraries/Drivers/CMSIS/CM3/CoreSupport/core_cm3.c \
-STD_Libraries/Core/Src/system_stm32f10x.c 
+STD_Libraries/Core/Src/system_stm32f10x.c \
+Userapp/Src/bsp_led.c \
+Userapp/Src/bsp_key.c \
+Userapp/Src/userapp.c
 
 # ASM sources
 ASM_SOURCES =  \
@@ -115,7 +118,8 @@ AS_INCLUDES =
 C_INCLUDES =  \
 -ISTD_Libraries/Core/Inc \
 -ISTD_Libraries/Drivers/CMSIS/CM3/CoreSupport \
--ISTD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Inc
+-ISTD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Inc \
+-IUserapp/Inc
 
 
 # compile gcc flags
