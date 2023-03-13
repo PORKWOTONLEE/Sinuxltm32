@@ -23,9 +23,6 @@ TARGET = Test
 DEBUG = 1
 # optimization
 OPT = -Og
-# libraries type
-#HAL_LIB = 1
-STD_Lib = 1
 
 
 #######################################
@@ -37,27 +34,6 @@ BUILD_DIR = build
 ######################################
 # source
 ######################################
-ifdef HAL_LIB
-# C sources
-C_SOURCES =  \
-HAL_Libraries/Core/Src/main.c \
-HAL_Libraries/Core/Src/stm32f1xx_it.c \
-HAL_Libraries/Core/Src/stm32f1xx_hal_msp.c \
-HAL_Libraries/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c \
-HAL_Libraries/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c \
-HAL_Libraries/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c \
-HAL_Libraries/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c \
-HAL_Libraries/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c \
-HAL_Libraries/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c \
-HAL_Libraries/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c \
-HAL_Libraries/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c \
-HAL_Libraries/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c \
-HAL_Libraries/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c \
-HAL_Libraries/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c \
-HAL_Libraries/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c \
-HAL_Libraries/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c \
-HAL_Libraries/Core/Src/system_stm32f1xx.c  
-else
 C_SOURCES =  \
 STD_Libraries/Core/Src/main.c \
 STD_Libraries/Core/Src/stm32f10x_it.c \
@@ -86,7 +62,6 @@ STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_usart.c \
 STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_wwdg.c \
 STD_Libraries/Drivers/CMSIS/CM3/CoreSupport/core_cm3.c \
 STD_Libraries/Core/Src/system_stm32f10x.c 
-endif
 
 # ASM sources
 ASM_SOURCES =  \
@@ -131,21 +106,6 @@ MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
 # AS defines
 AS_DEFS = 
 
-ifdef HAL_LIB
-# C defines
-C_DEFS =  \
--DUSE_HAL_DRIVER \
--DSTM32F103xE
-# AS includes
-AS_INCLUDES = 
-# C includes
-C_INCLUDES =  \
--IHAL_Libraries/Core/Inc \
--IHAL_Libraries/Drivers/STM32F1xx_HAL_Driver/Inc \
--IHAL_Libraries/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy \
--IHAL_Libraries/Drivers/CMSIS/Device/ST/STM32F1xx/Include \
--IHAL_Libraries/Drivers/CMSIS/Include
-else
 # C defines
 C_DEFS =  \
 -DUSE_STDPERIPH_DRIVER
@@ -156,7 +116,6 @@ C_INCLUDES =  \
 -ISTD_Libraries/Core/Inc \
 -ISTD_Libraries/Drivers/CMSIS/CM3/CoreSupport \
 -ISTD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Inc
-endif
 
 
 # compile gcc flags
