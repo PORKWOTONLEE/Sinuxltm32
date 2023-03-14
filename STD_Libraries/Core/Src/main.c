@@ -1,25 +1,27 @@
 /**
-  ******************************************************************************
-  * @file    Project/STM32F10x_StdPeriph_Template/main.c 
-  * @author  MCD Application Team
-  * @version V3.6.0
-  * @date    20-September-2021
-  * @brief   Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2011 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file    Project/STM32F10x_StdPeriph_Template/main.c 
+ * @author  MCD Application Team
+ * @version V3.6.0
+ * @date    20-September-2021
+ * @brief   Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2011 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 
 /* Includes ------------------------------------------------------------------*/
 #include <stdio.h>
+#include "bsp_led.h"
+#include "bsp_key.h"
 #include "userapp.h"
 
 /* Private typedef -----------------------------------------------------------*/
@@ -40,69 +42,59 @@
 /* Private functions ---------------------------------------------------------*/
 
 /**
-  * @brief  Main program.
-  * @param  None
-  * @retval None
-  */
+ * @brief  Main program.
+ * @param  None
+ * @retval None
+ */
 int main(void)
 {
-  /* Add your application code here
-     */
-  
-  GPIO_InitTypeDef GPIO_InitStructure;
-  
-  RCC->APB2ENR |= (1<<3);
+    /* Add your application code here
+    */
+    LED_GPIO_Init();
+    Key_GPIO_Init();
 
-  GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_15;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-  GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;
-
-  GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-  GPIO_SetBits(GPIOB, GPIO_Pin_All);
-
-  /* Infinite loop */
-  while (1)
-  {
-      userapp();
-  }
+    /* Infinite loop */
+    while (1)
+    {
+        userapp();
+    }
 }
 
 /**
-  * @brief  Retargets the C library printf function to the USART.
-  * @param  None
-  * @retval None
-  */
+ * @brief  Retargets the C library printf function to the USART.
+ * @param  None
+ * @retval None
+ */
 PUTCHAR_PROTOTYPE
 {
-  /* Place your implementation of fputc here */
-  /* e.g. write a character to the USART */
-  return ' ';
+    /* Place your implementation of fputc here */
+    /* e.g. write a character to the USART */
+    return ' ';
 }
 
 #ifdef  USE_FULL_ASSERT
 
 /**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
+ * @brief  Reports the name of the source file and the source line number
+ *         where the assert_param error has occurred.
+ * @param  file: pointer to the source file name
+ * @param  line: assert_param error line source number
+ * @retval None
+ */
 void assert_failed(uint8_t* file, uint32_t line)
 { 
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+    /* User can add his own implementation to report the file name and line number,
+ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
 
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    /* Infinite loop */
+    while (1)
+    {
+    }
 }
 #endif
 
 /**
-  * @}
-  */
+ * @}
+ */
 
 

@@ -17,9 +17,9 @@
 #define LED3_GPIO_PIN  GPIO_Pin_1
 #define LED3_GPIO_CLK  RCC_APB2Periph_GPIOB
 
-#define digitalHi(p,i)     (p->BSRR&=i)
-#define digitalLo(p,i)     (p->BRR&=i)
-#define digitalToggle(p,i) (p->ODR^=i)
+#define digitalHi(p,i)     {p->BSRR=i;}
+#define digitalLo(p,i)     {p->BRR=i;}
+#define digitalToggle(p,i) {p->ODR^=i;}
 
 #define LED1_ON     digitalLo(LED1_GPIO_PORT,LED1_GPIO_PIN)
 #define LED1_OFF    digitalHi(LED1_GPIO_PORT,LED1_GPIO_PIN)
@@ -53,9 +53,9 @@
                    LED2_OFF; \
                    LED3_ON;
 
-#define LED_CYAN   LED1_ON; \
+#define LED_CYAN   LED1_OFF; \
                    LED2_ON; \
-                   LED3_OFF;
+                   LED3_ON;
 
 #define LED_OFF    LED1_OFF; \
                    LED2_OFF; \
