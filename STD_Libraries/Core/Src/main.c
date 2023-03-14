@@ -50,8 +50,6 @@ int main(void)
 {
     /* Add your application code here
     */
-    LED_GPIO_Init();
-    Key_GPIO_Init();
 
     /* Infinite loop */
     while (1)
