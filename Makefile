@@ -64,7 +64,8 @@ STD_Libraries/Drivers/CMSIS/CM3/CoreSupport/core_cm3.c \
 STD_Libraries/Core/Src/system_stm32f10x.c \
 Userapp/Src/bsp_led.c \
 Userapp/Src/bsp_key.c \
-Userapp/Src/userapp.c
+Userapp/Src/userapp.c \
+Userapp/Src/bsp_clkconfig.c
 
 # ASM sources
 ASM_SOURCES =  \
