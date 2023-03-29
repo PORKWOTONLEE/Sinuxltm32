@@ -65,7 +65,8 @@ STD_Libraries/Core/Src/system_stm32f10x.c \
 Userapp/Src/bsp_led.c \
 Userapp/Src/bsp_key.c \
 Userapp/Src/userapp.c \
-Userapp/Src/bsp_clkconfig.c
+Userapp/Src/bsp_clkconfig.c \
+Userapp/Src/bsp_exti.c
 
 # ASM sources
 ASM_SOURCES =  \

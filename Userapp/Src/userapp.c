@@ -1,5 +1,6 @@
 #include "userapp.h"
 #include "bsp_clkconfig.h"
+#include "bsp_exti.h"
 #include "bsp_key.h"
 #include "bsp_led.h"
 #include "bsp_led_bitband.h"
@@ -11,8 +12,9 @@ uint8_t Key2_state = KEY_OFF;
 
 int userapp(void)
 {
+    HSE_SetSysCLock(RCC_PLLMul_8);
     LED_GPIO_Init();
-    HSE_SetSysCLock(RCC_PLLMul_9);
+    KEY_EXTI_Init();
 
     while (1)
     {
