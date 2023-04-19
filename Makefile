@@ -62,9 +62,14 @@ STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_usart.c \
 STD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Src/stm32f10x_wwdg.c \
 STD_Libraries/Drivers/CMSIS/CM3/CoreSupport/core_cm3.c \
 STD_Libraries/Core/Src/system_stm32f10x.c \
-Userapp/Src/bsp_led.c \
-Userapp/Src/bsp_key.c \
-Userapp/Src/userapp.c
+USB_Libraries/Src/usb_int.c \
+USB_Libraries/Src/usb_regs.c \
+USB_Libraries/Src/usb_mem.c \
+USB_Libraries/Src/usb_core.c \
+USB_Libraries/Src/usb_sil.c \
+USB_Libraries/Src/usb_init.c \
+Userapp/Src/userapp.c \
+Userapp/Src/hw_config.c
 
 # ASM sources
 ASM_SOURCES =  \
@@ -119,6 +124,7 @@ C_INCLUDES =  \
 -ISTD_Libraries/Core/Inc \
 -ISTD_Libraries/Drivers/CMSIS/CM3/CoreSupport \
 -ISTD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Inc \
+-IUSB_Libraries/Inc \
 -IUserapp/Inc
 
 

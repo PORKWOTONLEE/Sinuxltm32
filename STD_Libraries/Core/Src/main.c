@@ -20,8 +20,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include <stdio.h>
-#include "bsp_led.h"
-#include "bsp_key.h"
 #include "userapp.h"
 
 /* Private typedef -----------------------------------------------------------*/
