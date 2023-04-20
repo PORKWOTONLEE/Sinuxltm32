@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * @file    hw_config.h
+  * @file    usb_desc.h
   * @author  MCD Application Team
   * @version V4.1.0
   * @date    26-May-2017
-  * @brief   Hardware Configuration & Setup
+  * @brief   Descriptor Header for Custom HID Demo
   ******************************************************************************
   * @attention
   *
@@ -37,26 +37,35 @@
 
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __HW_CONFIG_H
-#define __HW_CONFIG_H
+#ifndef __USB_DESC_H
+#define __USB_DESC_H
 
 /* Includes ------------------------------------------------------------------*/
-#include "platform_config.h"
-#include "usb_type.h"
-
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported define -----------------------------------------------------------*/
-/* Exported functions ------------------------------------------------------- */
-void Set_System(void);
-void Set_USBClock(void);
-void Leave_LowPowerMode(void);
-void USB_Interrupts_Config(void);
-void USB_Cable_Config(FunctionalState NewState);
-void EXTI_Configuration(void);
-void Get_SerialNum(void);
+#define USB_DEVICE_DESCRIPTOR_TYPE              0x01
+#define USB_CONFIGURATION_DESCRIPTOR_TYPE       0x02
+#define USB_STRING_DESCRIPTOR_TYPE              0x03
+#define USB_INTERFACE_DESCRIPTOR_TYPE           0x04
+#define USB_ENDPOINT_DESCRIPTOR_TYPE            0x05
 
-#endif  /*__HW_CONFIG_H*/
+#define HID_DESCRIPTOR_TYPE                     0x21
+#define CUSTOMHID_SIZ_HID_DESC                  0x09
+#define CUSTOMHID_OFF_HID_DESC                  0x12
+
+#define CUSTOMHID_SIZ_DEVICE_DESC               18
+#define CUSTOMHID_SIZ_CONFIG_DESC               41
+#define CUSTOMHID_SIZ_REPORT_DESC               63
+
+#define STANDARD_ENDPOINT_DESC_SIZE             0x09
+
+/* Exported functions ------------------------------------------------------- */
+extern const uint8_t CustomHID_DeviceDescriptor[CUSTOMHID_SIZ_DEVICE_DESC];
+extern const uint8_t CustomHID_ConfigDescriptor[CUSTOMHID_SIZ_CONFIG_DESC];
+extern const uint8_t CustomHID_ReportDescriptor[CUSTOMHID_SIZ_REPORT_DESC];
+
+#endif /* __USB_DESC_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

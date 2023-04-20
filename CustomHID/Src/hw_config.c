@@ -38,17 +38,15 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "hw_config.h"
+#include "stm32f10x_gpio.h"
+#include "stm32f10x_rcc.h"
 #include "usb_lib.h"
-#include "usb_desc.h"
-#include "usb_pwr.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-/* Extern variables ----------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
-static void IntToUnicode (uint32_t value , uint8_t *pbuf , uint8_t len);
 /* Private functions ---------------------------------------------------------*/
 
 /*******************************************************************************
@@ -67,7 +65,8 @@ void Set_System(void)
        system_stm32xxx.c file
      */ 
   
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+  /* Enable all GPIOs Clock*/
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOB , ENABLE);
   
   /********************************************/
   /*  Configure USB DM/DP pins                */
@@ -78,21 +77,34 @@ void Set_System(void)
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
   
-  /* Enable all GPIOs Clock*/
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_ALLGPIO, ENABLE);
-  
   /********************************************/
   /* Enable the USB PULL UP                   */
   /********************************************/
   
   /* USB_DISCONNECT used as USB pull-up */
-  GPIO_InitStructure.GPIO_Pin = USB_DISCONNECT_PIN;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
-  GPIO_Init(USB_DISCONNECT, &GPIO_InitStructure);
+  GPIO_Init(GPIOD, &GPIO_InitStructure);
   
-  /* Enable the USB disconnect GPIO clock */
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIO_DISCONNECT, ENABLE);
+  /********************************************/
+  /* Enable the Data LED                      */
+  /********************************************/
+  
+  /* LED */
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+  GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+  /********************************************/
+  /* Enable the Data Key*/
+  /********************************************/
+  
+  /* Key */
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+  GPIO_Init(GPIOA, &GPIO_InitStructure);
   
   /********************************************/
   /*   configures the hardware resources      */
@@ -169,22 +181,6 @@ void USB_Interrupts_Config(void)
   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
-  
-  /* Enable the EXTI9_5 Interrupt */
-//  NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;
-//  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-//  NVIC_Init(&NVIC_InitStructure);
-//  
-//  /* Enable the EXTI15_10 Interrupt */
-//  NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;
-//  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-//  NVIC_Init(&NVIC_InitStructure);
-//  
-//  /* Enable the DMA1 Channel1 Interrupt */
-//  NVIC_InitStructure.NVIC_IRQChannel = DMA1_Channel1_IRQn;
-//  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
-//  NVIC_Init(&NVIC_InitStructure);
-  
 }
 
 /*******************************************************************************
@@ -198,11 +194,11 @@ void USB_Cable_Config (FunctionalState NewState)
 { 
   if (NewState != DISABLE)
   {
-    GPIO_ResetBits(USB_DISCONNECT, USB_DISCONNECT_PIN);
+    GPIO_ResetBits(GPIOD, GPIO_Pin_6);
   }
   else
   {
-    GPIO_SetBits(USB_DISCONNECT, USB_DISCONNECT_PIN);
+    GPIO_SetBits(GPIOD, GPIO_Pin_6);
   }
 }
 
@@ -215,57 +211,6 @@ void USB_Cable_Config (FunctionalState NewState)
 *******************************************************************************/
 void EXTI_Configuration(void)
 {
-}
-/*******************************************************************************
-* Function Name  : Get_SerialNum.
-* Description    : Create the serial number string descriptor.
-* Input          : None.
-* Output         : None.
-* Return         : None.
-*******************************************************************************/
-void Get_SerialNum(void)
-{
-  uint32_t Device_Serial0, Device_Serial1, Device_Serial2;
-  
-  Device_Serial0 = *(uint32_t*)ID1;
-  Device_Serial1 = *(uint32_t*)ID2;
-  Device_Serial2 = *(uint32_t*)ID3;
-  
-  Device_Serial0 += Device_Serial2;
-  
-  if (Device_Serial0 != 0)
-  {
-    IntToUnicode (Device_Serial0, &CustomHID_StringSerial[2] , 8);
-    IntToUnicode (Device_Serial1, &CustomHID_StringSerial[18], 4);
-  }
-}
-
-/*******************************************************************************
-* Function Name  : HexToChar.
-* Description    : Convert Hex 32Bits value into char.
-* Input          : None.
-* Output         : None.
-* Return         : None.
-*******************************************************************************/
-static void IntToUnicode (uint32_t value , uint8_t *pbuf , uint8_t len)
-{
-  uint8_t idx = 0;
-  
-  for( idx = 0 ; idx < len ; idx ++)
-  {
-    if( ((value >> 28)) < 0xA )
-    {
-      pbuf[ 2* idx] = (value >> 28) + '0';
-    }
-    else
-    {
-      pbuf[2* idx] = (value >> 28) + 'A' - 10; 
-    }
-    
-    value = value << 4;
-    
-    pbuf[ 2* idx + 1] = 0;
-  }
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

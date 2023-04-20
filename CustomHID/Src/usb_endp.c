@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * @file    platform_config.h
+  * @file    usb_endp.c
   * @author  MCD Application Team
   * @version V4.1.0
   * @date    26-May-2017
-  * @brief   Evaluation board specific configuration file.
+  * @brief   Endpoint routines
   ******************************************************************************
   * @attention
   *
@@ -36,47 +36,33 @@
   */
 
 
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __PLATFORM_CONFIG_H
-#define __PLATFORM_CONFIG_H
-
 /* Includes ------------------------------------------------------------------*/
 
-#include "stm32f10x.h"
+#include "hw_config.h"
+#include "usb_lib.h"
+#include "usb_istr.h"
 
-/* Exported types ------------------------------------------------------------*/
-/* Exported constants --------------------------------------------------------*/
-
-/* Define if Low power mode is enabled; it allows entering the device into
-   STOP mode following USB Suspend event, and wakes up after the USB wakeup
-   event is received. */
-//#define USB_LOW_PWR_MGMT_SUPPORT
-
-/*Unique Devices IDs register set*/
-
-#define         ID1          (0x1FFFF7E8)
-#define         ID2          (0x1FFFF7EC)
-#define         ID3          (0x1FFFF7F0)
-
-/* Define the STM32F10x hardware depending on the used evaluation board */
-
-#define USB_DISCONNECT                      GPIOC
-#define USB_DISCONNECT_PIN                  GPIO_Pin_0
-#define RCC_APB2Periph_GPIO_DISCONNECT      RCC_APB2Periph_GPIOC
-#define ADC1_DR_Address                     ((uint32_t)0x4001244C)
-
-#define RCC_APB2Periph_ALLGPIO                 (RCC_APB2Periph_GPIOA \
-                                              | RCC_APB2Periph_GPIOB \
-                                              | RCC_APB2Periph_GPIOC \
-                                              | RCC_APB2Periph_GPIOD \
-                                              | RCC_APB2Periph_GPIOE \
-                                              | RCC_APB2Periph_GPIOF \
-                                              | RCC_APB2Periph_GPIOG )
-
-/* Exported macro ------------------------------------------------------------*/
-/* Exported functions ------------------------------------------------------- */
-
-#endif /* __PLATFORM_CONFIG_H */
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
+/* Private macro -------------------------------------------------------------*/
+/* Private variables ---------------------------------------------------------*/
+/* Extern variables ----------------------------------------------------------*/
+extern __IO uint8_t PrevXferComplete;
+/* Private function prototypes -----------------------------------------------*/
+/* Private functions ---------------------------------------------------------*/
+/*******************************************************************************
+* Function Name  : EP1_IN_PreXferComplete.
+* Description    : EP1 IN Callback Routine.
+* Input          : None.
+* Output         : None.
+* Return         : None.
+*******************************************************************************/
+void EP1_IN_PreXferComplete(void)
+{
+  /* Set the transfer complete token to inform upper layer that the current
+  transfer has been complete */
+  PrevXferComplete = 1;
+}
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 

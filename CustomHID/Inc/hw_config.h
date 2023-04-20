@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * @file    usb_pwr.h
+  * @file    hw_config.h
   * @author  MCD Application Team
   * @version V4.1.0
   * @date    26-May-2017
-  * @brief   Connection/disconnection & power management header
+  * @brief   Hardware Configuration & Setup
   ******************************************************************************
   * @attention
   *
@@ -35,46 +35,33 @@
   ******************************************************************************
   */
 
+
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __USB_PWR_H
-#define __USB_PWR_H
+#ifndef __HW_CONFIG_H
+#define __HW_CONFIG_H
 
 /* Includes ------------------------------------------------------------------*/
+#include <stdint.h>
+#include "stm32f10x.h"
+#include "usb_type.h"
+#include "usb_pwr.h"
+
 /* Exported types ------------------------------------------------------------*/
-typedef enum _RESUME_STATE
-{
-  RESUME_EXTERNAL,
-  RESUME_INTERNAL,
-  RESUME_LATER,
-  RESUME_WAIT,
-  RESUME_START,
-  RESUME_ON,
-  RESUME_OFF,
-  RESUME_ESOF
-} RESUME_STATE;
-
-typedef enum _DEVICE_STATE
-{
-  UNCONNECTED,
-  ATTACHED,
-  POWERED,
-  SUSPENDED,
-  ADDRESSED,
-  CONFIGURED
-} DEVICE_STATE;
-
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
+#define         ID1          (0x1FFFF7E8)
+#define         ID2          (0x1FFFF7EC)
+#define         ID3          (0x1FFFF7F0)
+/* Exported define -----------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-void Suspend(void);
-void Resume_Init(void);
-void Resume(RESUME_STATE eResumeSetVal);
-RESULT PowerOn(void);
-RESULT PowerOff(void);
-/* External variables --------------------------------------------------------*/
-extern  __IO uint32_t bDeviceState; /* USB device status */
-extern __IO bool fSuspendEnabled;  /* true when suspend is possible */
+void Set_System(void);
+void Set_USBClock(void);
+void Leave_LowPowerMode(void);
+void USB_Interrupts_Config(void);
+void USB_Cable_Config(FunctionalState NewState);
+void EXTI_Configuration(void);
+void EP1_IN_PreXferComplete(void);
 
-#endif  /*__USB_PWR_H*/
+#endif  /*__HW_CONFIG_H*/
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
