@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * @file    hw_config.h
+  * @file    usb_conf.h
   * @author  MCD Application Team
   * @version V4.1.0
   * @date    26-May-2017
-  * @brief   Hardware Configuration & Setup
+  * @brief   Composite USB Device demo configuration file
   ******************************************************************************
   * @attention
   *
@@ -37,31 +37,76 @@
 
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __HW_CONFIG_H
-#define __HW_CONFIG_H
+#ifndef __USB_CONF_H
+#define __USB_CONF_H
 
 /* Includes ------------------------------------------------------------------*/
-#include <stdint.h>
-#include "stm32f10x.h"
-#include "usb_type.h"
-#include "usb_pwr.h"
-
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
-#define         ID1          (0x1FFFF7E8)
-#define         ID2          (0x1FFFF7EC)
-#define         ID3          (0x1FFFF7F0)
-/* Exported define -----------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-void Set_System(void);
-void Set_USBClock(void);
-void Leave_LowPowerMode(void);
-void USB_Interrupts_Config(void);
-void USB_Cable_Config(FunctionalState NewState);
-void EXTI_Configuration(void);
-void EP1_IN_PreXferComplete(void);
+/* External variables --------------------------------------------------------*/
+/*-------------------------------------------------------------*/
+/* EP_NUM */
+/* defines how many endpoints are used by the device */
+/*-------------------------------------------------------------*/
+#define EP_NUM     (5)
 
-#endif  /*__HW_CONFIG_H*/
+/*-------------------------------------------------------------*/
+/* --------------   Buffer Description Table  -----------------*/
+/*-------------------------------------------------------------*/
+/* buffer table base address */
+/* buffer table base address */
+#define BTABLE_ADDRESS      (0x00)
+
+/* EP0  */
+/* rx/tx buffer base address */
+#define ENDP0_RXADDR        (0x40)
+#define ENDP0_TXADDR        (0x80)
+
+/* EP1  */
+/* rx/tx buffer base address */
+#define ENDP1_TXADDR        (0xC0)
+#define ENDP1_RXADDR        (0x100)
+
+/* EP2  */
+/* rx/tx buffer base address */
+#define ENDP2_TXADDR        (0x140)
+#define ENDP2_RXADDR        (0x180)
+
+/* EP3  */
+/* tx buffer base address */
+#define ENDP3_TXADDR        (0x1C0)
+
+/*-------------------------------------------------------------*/
+/* -------------------   ISTR events  -------------------------*/
+/*-------------------------------------------------------------*/
+/* IMR_MSK */
+/* mask defining which events has to be handled */
+/* by the device application software */
+
+#define IMR_MSK (CNTR_CTRM  | CNTR_WKUPM | CNTR_SUSPM | CNTR_ERRM  | CNTR_SOFM \
+                 | CNTR_ESOFM | CNTR_RESETM )
+
+/* CTR service routines */
+/* associated to defined endpoints */
+#define  EP1_IN_Callback   EP1_IN_Callback
+#define  EP2_IN_Callback   EP2_IN_Callback
+#define  EP3_IN_Callback   NOP_Process
+#define  EP4_IN_Callback   NOP_Process
+#define  EP5_IN_Callback   NOP_Process
+#define  EP6_IN_Callback   NOP_Process
+#define  EP7_IN_Callback   NOP_Process
+
+#define  EP1_OUT_Callback   NOP_Process
+#define  EP2_OUT_Callback   EP2_OUT_Callback 
+#define  EP3_OUT_Callback   NOP_Process
+#define  EP4_OUT_Callback   NOP_Process
+#define  EP5_OUT_Callback   NOP_Process
+#define  EP6_OUT_Callback   NOP_Process
+#define  EP7_OUT_Callback   NOP_Process
+
+#endif /*__USB_CONF_H*/
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+

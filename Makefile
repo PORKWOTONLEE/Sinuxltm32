@@ -68,12 +68,12 @@ USB_Libraries/Src/usb_mem.c \
 USB_Libraries/Src/usb_core.c \
 USB_Libraries/Src/usb_sil.c \
 USB_Libraries/Src/usb_init.c \
-CustomHID/Src/hw_config.c \
-CustomHID/Src/usb_pwr.c \
-CustomHID/Src/usb_istr.c \
-CustomHID/Src/usb_prop.c \
-CustomHID/Src/usb_desc.c \
-CustomHID/Src/usb_endp.c \
+Composite_USB_Device/Src/hw_config.c \
+Composite_USB_Device/Src/usb_pwr.c \
+Composite_USB_Device/Src/usb_istr.c \
+Composite_USB_Device/Src/usb_prop.c \
+Composite_USB_Device/Src/usb_desc.c \
+Composite_USB_Device/Src/usb_endp.c \
 Userapp/Src/userapp.c
 
 # ASM sources
@@ -130,7 +130,7 @@ C_INCLUDES =  \
 -ISTD_Libraries/Drivers/CMSIS/CM3/CoreSupport \
 -ISTD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Inc \
 -IUSB_Libraries/Inc \
--ICustomHID/Inc \
+-IComposite_USB_Device/Inc \
 -IUserapp/Inc
 
 

@@ -4,7 +4,7 @@
   * @author  MCD Application Team
   * @version V4.1.0
   * @date    26-May-2017
-  * @brief   Descriptors for Custom HID Demo
+  * @brief   Descriptors for Composite USB Device Demo
   ******************************************************************************
   * @attention
   *
@@ -49,15 +49,15 @@
 /* Private functions ---------------------------------------------------------*/
 
 /* USB Standard Device Descriptor */
-const uint8_t CustomHID_DeviceDescriptor[CUSTOMHID_SIZ_DEVICE_DESC] =
+const uint8_t Composite_DeviceDescriptor[COMPOSITE_SIZ_DEVICE_DESC] =
   {
     0x12,                       /*bLength */
     USB_DEVICE_DESCRIPTOR_TYPE, /*bDescriptorType*/
     0x00,                       /*bcdUSB */
-    0x01,
-    0x00,                       /*bDeviceClass*/
-    0x00,                       /*bDeviceSubClass*/
-    0x00,                       /*bDeviceProtocol*/
+    0x02,
+    0xEF,                       /*bDeviceClass*/
+    0x02,                       /*bDeviceSubClass*/
+    0x01,                       /*bDeviceProtocol*/
     0x40,                       /*bMaxPacketSize64*/
     0x83,                       /*idVendor (0x0483)*/
     0x04,
@@ -73,27 +73,38 @@ const uint8_t CustomHID_DeviceDescriptor[CUSTOMHID_SIZ_DEVICE_DESC] =
                                              device serial number */
     0x01                        /*bNumConfigurations*/
   }
-  ; /* CustomHID_DeviceDescriptor */
+  ; /* Composite_DeviceDescriptor */
 
 
 /* USB Configuration Descriptor */
 /*   All Descriptors (Configuration, Interface, Endpoint, Class, Vendor */
-const uint8_t CustomHID_ConfigDescriptor[CUSTOMHID_SIZ_CONFIG_DESC] =
+const uint8_t Composite_ConfigDescriptor[COMPOSITE_SIZ_CONFIG_DESC] =
   {
+    /************** Descriptor of Configuration ****************/
     0x09, /* bLength: Configuration Descriptor size */
     USB_CONFIGURATION_DESCRIPTOR_TYPE, /* bDescriptorType: Configuration */
-    CUSTOMHID_SIZ_CONFIG_DESC,
+    COMPOSITE_SIZ_CONFIG_DESC,
     /* wTotalLength: Bytes returned */
     0x00,
-    0x01,         /* bNumInterfaces: 1 interface */
+    0x03,         /* bNumInterfaces: 3 interface */
     0x01,         /* bConfigurationValue: Configuration value */
     0x00,         /* iConfiguration: Index of string descriptor describing
                                  the configuration*/
     0xC0,         /* bmAttributes: Self powered */
     0x32,         /* MaxPower 100 mA: this current is used for detecting Vbus */
 
-    /************** Descriptor of Custom HID interface ****************/
+    /************** Descriptor of Interface Association ****************/
     /* 09 */
+    0x08,   /*  bLength  */
+    USB_INTERFACE_ASSOCIATION_DESCRIPTOR_TYPE,   /*  bDescriptorType*/
+    0x00,   /*  bFirstInterface: 0 */
+    0x01,   /*  bInterfaceCount */
+    0x03,   /*  bFunctionClass --HID */
+    0x01,   /*  bFunctionSubClass */
+    0x01,   /*  bFunctionProtocol */
+    0x00,   /*  iFunction */
+    /************** Descriptor of Custom HID interface ****************/
+    /* 17 */
     0x09,         /* bLength: Interface Descriptor size */
     USB_INTERFACE_DESCRIPTOR_TYPE,/* bDescriptorType: Interface descriptor type */
     0x00,         /* bInterfaceNumber: Number of Interface */
@@ -101,12 +112,12 @@ const uint8_t CustomHID_ConfigDescriptor[CUSTOMHID_SIZ_CONFIG_DESC] =
     0x02,         /* bNumEndpoints */
     0x03,         /* bInterfaceClass: HID */
     0x01,         /* bInterfaceSubClass : 1=BOOT, 0=no boot */
-    0x00,         /* nInterfaceProtocol : 0=none, 1=keyboard, 2=mouse */
+    0x01,         /* nInterfaceProtocol : 0=none, 1=keyboard, 2=mouse */
     0,            /* iInterface: Index of string descriptor */
     /******************** Descriptor of Custom HID HID ********************/
-    /* 18 */
+    /* 26 */
     0x09,         /* bLength: HID Descriptor size */
-    HID_DESCRIPTOR_TYPE, /* bDescriptorType: HID */
+    USB_HID_DESCRIPTOR_TYPE, /* bDescriptorType: HID */
     0x10,         /* bcdHID: HID Class Spec release number */
     0x01,
     0x00,         /* bCountryCode: Hardware target country */
@@ -115,31 +126,113 @@ const uint8_t CustomHID_ConfigDescriptor[CUSTOMHID_SIZ_CONFIG_DESC] =
     CUSTOMHID_SIZ_REPORT_DESC,/* wItemLength: Total length of Report descriptor */
     0x00,
     /******************** Descriptor of Custom HID endpoints ******************/
-    /* 27 */
+    /* 35 */
     0x07,          /* bLength: Endpoint Descriptor size */
-    USB_ENDPOINT_DESCRIPTOR_TYPE, /* bDescriptorType: */
-
-    0x81,          /* bEndpointAddress: Endpoint Address (IN) */
+    USB_ENDPOINT_DESCRIPTOR_TYPE,	/* bDescriptorType: Endpoint descriptor type */
+    0x81,          /* bEndpointAddress: Endpoint Address (IN1) */
     0x03,          /* bmAttributes: Interrupt endpoint */
     0x08,          /* wMaxPacketSize: 8 Bytes max */
     0x00,
     0x20,          /* bInterval: Polling Interval (32 ms) */
-    /* 34 */
-    	
+    /* 42 */
     0x07,	/* bLength: Endpoint Descriptor size */
-    USB_ENDPOINT_DESCRIPTOR_TYPE,	/* bDescriptorType: */
-			/*	Endpoint descriptor type */
-    0x01,	/* bEndpointAddress: */
-			/*	Endpoint Address (OUT) */
+    USB_ENDPOINT_DESCRIPTOR_TYPE,	/* bDescriptorType: Endpoint descriptor type */
+    0x01,	/* bEndpointAddress: Endpoint Address (OUT1) */
     0x03,	/* bmAttributes: Interrupt endpoint */
     0x02,	/* wMaxPacketSize: 2 Bytes max  */
     0x00,
     0x20,	/* bInterval: Polling Interval (32 ms) */
-    /* 41 */
+
+    /************** Descriptor of Interface Association ****************/
+    /* 49 */
+    0x08,   /*  bLength  */
+    USB_INTERFACE_ASSOCIATION_DESCRIPTOR_TYPE,   /*  bDescriptorType*/
+    0x01,   /*  bFirstInterface: 0 */
+    0x02,   /*  bInterfaceCount */
+    0x02,   /*  bFunctionClass --CDC */
+    0x02,   /*  bFunctionSubClass */
+    0x01,   /*  bFunctionProtocol */
+    0x00,   /*  iFunction */
+    /************** Descriptor of CDC interface ****************/
+    /* 57 */
+    0x09,   /* bLength: Interface Descriptor size */
+    USB_INTERFACE_DESCRIPTOR_TYPE,  /* bDescriptorType: Interface */
+    0x01,   /* bInterfaceNumber: Number of Interface */
+    0x00,   /* bAlternateSetting: Alternate setting */
+    0x01,   /* bNumEndpoints: One endpoints used */
+    0x02,   /* bInterfaceClass: Communication Interface Class */
+    0x02,   /* bInterfaceSubClass: Abstract Control Model */
+    0x01,   /* bInterfaceProtocol: Common AT commands */
+    0x00,   /* iInterface: */
+    /************** Descriptor of CDC Header Functional ****************/
+    /* 66 */
+    0x05,   /* bLength: Endpoint Descriptor size */
+    0x24,   /* bDescriptorType: CS_INTERFACE */
+    0x00,   /* bDescriptorSubtype: Header Func Desc */
+    0x10,   /* bcdCDC: spec release number */
+    0x01,
+    /************** Descriptor of CDC Call Management Functional ****************/
+    /* 71 */
+    0x05,   /* bFunctionLength */
+    0x24,   /* bDescriptorType: CS_INTERFACE */
+    0x01,   /* bDescriptorSubtype: Call Management Func Desc */
+    0x00,   /* bmCapabilities: D0+D1 */
+    0x01,   /* bDataInterface: 1 */
+    /************** Descriptor of CDC ACM Functional ****************/
+    /* 76 */
+    0x04,   /* bFunctionLength */
+    0x24,   /* bDescriptorType: CS_INTERFACE */
+    0x02,   /* bDescriptorSubtype: Abstract Control Management desc */
+    0x02,   /* bmCapabilities */
+    /************** Descriptor of CDC Union Functional ****************/
+    /* 80 */
+    0x05,   /* bFunctionLength */
+    0x24,   /* bDescriptorType: CS_INTERFACE */
+    0x06,   /* bDescriptorSubtype: Union func desc */
+    0x00,   /* bMasterInterface: Communication class interface */
+    0x01,   /* bSlaveInterface0: Data Class Interface */
+    /******************** Descriptor of CDC endpoints ******************/
+    /* 85 */
+    0x07,   /* bLength: Endpoint Descriptor size */
+    USB_ENDPOINT_DESCRIPTOR_TYPE,   /* bDescriptorType: Endpoint */
+    0x83,   /* bEndpointAddress: (IN3) */
+    0x03,   /* bmAttributes: Interrupt */
+    VIRTUAL_COM_PORT_INT_SIZE,      /* wMaxPacketSize: */
+    0x00,
+    0x02,   /* bInterval: */
+    /************** Descriptor of CDC Data class interface ****************/
+    /* 92 */
+    0x09,   /* bLength: Endpoint Descriptor size */
+    USB_INTERFACE_DESCRIPTOR_TYPE,  /* bDescriptorType: */
+    0x02,   /* bInterfaceNumber: Number of Interface */
+    0x00,   /* bAlternateSetting: Alternate setting */
+    0x02,   /* bNumEndpoints: Two endpoints used */
+    0x0A,   /* bInterfaceClass: CDC */
+    0x00,   /* bInterfaceSubClass: */
+    0x00,   /* bInterfaceProtocol: */
+    0x00,   /* iInterface: */
+    /******************** Descriptor of CDC endpoints ******************/
+    /* 101 */
+    0x07,   /* bLength: Endpoint Descriptor size */
+    USB_ENDPOINT_DESCRIPTOR_TYPE,   /* bDescriptorType: Endpoint */
+    0x02,   /* bEndpointAddress: (OUT2) */
+    0x02,   /* bmAttributes: Bulk */
+    VIRTUAL_COM_PORT_DATA_SIZE,             /* wMaxPacketSize: */
+    0x00,
+    0x00,   /* bInterval: ignore for Bulk transfer */
+    /* 108 */
+    0x07,   /* bLength: Endpoint Descriptor size */
+    USB_ENDPOINT_DESCRIPTOR_TYPE,   /* bDescriptorType: Endpoint */
+    0x82,   /* bEndpointAddress: (IN2) */
+    0x02,   /* bmAttributes: Bulk */
+    VIRTUAL_COM_PORT_DATA_SIZE,             /* wMaxPacketSize: */
+    0x00,
+    0x00    /* bInterval */
+    /* 115 */
   };
 
-/* CustomHID_ConfigDescriptor */
-const uint8_t CustomHID_ReportDescriptor[CUSTOMHID_SIZ_REPORT_DESC] ={
+/* Composite_ConfigDescriptor */
+const uint8_t Composite_ReportDescriptor[CUSTOMHID_SIZ_REPORT_DESC] ={
     0x05, 0x01,           // Usage Page (Generic Desktop)
     0x09, 0x06,           // Usage (Keyboard)
     0xA1, 0x01,           // Collection (Application)

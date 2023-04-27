@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * @file    usb_prop.h
+  * @file    hw_config.h
   * @author  MCD Application Team
   * @version V4.1.0
   * @date    26-May-2017
-  * @brief   All processing related to Custom HID demo
+  * @brief   Hardware Configuration & Setup
   ******************************************************************************
   * @attention
   *
@@ -37,57 +37,31 @@
 
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __USB_PROP_H
-#define __USB_PROP_H
+#ifndef __HW_CONFIG_H
+#define __HW_CONFIG_H
 
 /* Includes ------------------------------------------------------------------*/
+#include <stdint.h>
+#include "stm32f10x.h"
+#include "usb_type.h"
+#include "usb_pwr.h"
+
 /* Exported types ------------------------------------------------------------*/
-typedef enum _HID_REQUESTS
-{
-  GET_REPORT = 1,
-  GET_IDLE,
-  GET_PROTOCOL,
-
-  SET_REPORT = 9,
-  SET_IDLE,
-  SET_PROTOCOL
-} HID_REQUESTS;
-
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
-/* Exported functions ------------------------------------------------------- */
-void CustomHID_init(void);
-void CustomHID_Reset(void);
-void CustomHID_SetConfiguration(void);
-void CustomHID_SetDeviceAddress (void);
-void CustomHID_Status_In (void);
-void CustomHID_Status_Out (void);
-RESULT CustomHID_Data_Setup(uint8_t);
-RESULT CustomHID_NoData_Setup(uint8_t);
-RESULT CustomHID_Get_Interface_Setting(uint8_t Interface, uint8_t AlternateSetting);
-uint8_t *CustomHID_GetDeviceDescriptor(uint16_t );
-uint8_t *CustomHID_GetConfigDescriptor(uint16_t);
-uint8_t *CustomHID_GetStringDescriptor(uint16_t);
-RESULT CustomHID_SetProtocol(void);
-uint8_t *CustomHID_GetProtocolValue(uint16_t Length);
-RESULT CustomHID_SetProtocol(void);
-uint8_t *CustomHID_GetReportDescriptor(uint16_t Length);
-uint8_t *CustomHID_GetHIDDescriptor(uint16_t Length);
-
-
+#define         ID1          (0x1FFFF7E8)
+#define         ID2          (0x1FFFF7EC)
+#define         ID3          (0x1FFFF7F0)
 /* Exported define -----------------------------------------------------------*/
-#define CustomHID_GetConfiguration          NOP_Process
-//#define CustomHID_SetConfiguration          NOP_Process
-#define CustomHID_GetInterface              NOP_Process
-#define CustomHID_SetInterface              NOP_Process
-#define CustomHID_GetStatus                 NOP_Process
-#define CustomHID_ClearFeature              NOP_Process
-#define CustomHID_SetEndPointFeature        NOP_Process
-#define CustomHID_SetDeviceFeature          NOP_Process
-//#define CustomHID_SetDeviceAddress          NOP_Process
+/* Exported functions ------------------------------------------------------- */
+void Set_System(void);
+void Set_USBClock(void);
+void Leave_LowPowerMode(void);
+void USB_Interrupts_Config(void);
+void USB_Cable_Config(FunctionalState NewState);
+void EP1_IN_PreXferComplete(void);
+void EP2_IN_PreXferComplete(void);
 
-#define REPORT_DESCRIPTOR                  0x22
-
-#endif /* __USB_PROP_H */
+#endif  /*__HW_CONFIG_H*/
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

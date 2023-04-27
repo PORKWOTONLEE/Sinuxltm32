@@ -105,13 +105,6 @@ void Set_System(void)
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
-  
-  /********************************************/
-  /*   configures the hardware resources      */
-  /********************************************/
-  
-  /* Additional EXTI configuration (configure both edges) */
-  EXTI_Configuration();
 }
 
 /*******************************************************************************
@@ -200,17 +193,6 @@ void USB_Cable_Config (FunctionalState NewState)
   {
     GPIO_SetBits(GPIOD, GPIO_Pin_6);
   }
-}
-
-/*******************************************************************************
-* Function Name : EXTI_Configuration.
-* Description   : Configure the EXTI lines
-* Input         : None.
-* Output        : None.
-* Return value  : The direction value.
-*******************************************************************************/
-void EXTI_Configuration(void)
-{
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

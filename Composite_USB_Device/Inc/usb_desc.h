@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * @file    usb_endp.c
+  * @file    usb_desc.h
   * @author  MCD Application Team
   * @version V4.1.0
   * @date    26-May-2017
-  * @brief   Endpoint routines
+  * @brief   Descriptor Header for Composite USB Device Demo
   ******************************************************************************
   * @attention
   *
@@ -36,33 +36,38 @@
   */
 
 
+/* Define to prevent recursive inclusion -------------------------------------*/
+#ifndef __USB_DESC_H
+#define __USB_DESC_H
+
 /* Includes ------------------------------------------------------------------*/
+/* Exported types ------------------------------------------------------------*/
+/* Exported constants --------------------------------------------------------*/
+/* Exported macro ------------------------------------------------------------*/
+/* Exported define -----------------------------------------------------------*/
+#define USB_DEVICE_DESCRIPTOR_TYPE                0x01
+#define USB_CONFIGURATION_DESCRIPTOR_TYPE         0x02
+#define USB_STRING_DESCRIPTOR_TYPE                0x03
+#define USB_INTERFACE_DESCRIPTOR_TYPE             0x04
+#define USB_ENDPOINT_DESCRIPTOR_TYPE              0x05
+#define USB_INTERFACE_ASSOCIATION_DESCRIPTOR_TYPE 0x0B
+#define USB_HID_DESCRIPTOR_TYPE                   0x21
 
-#include "hw_config.h"
-#include "usb_lib.h"
-#include "usb_istr.h"
+#define COMPOSITE_SIZ_DEVICE_DESC               18
+#define COMPOSITE_SIZ_CONFIG_DESC               115
 
-/* Private typedef -----------------------------------------------------------*/
-/* Private define ------------------------------------------------------------*/
-/* Private macro -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
-/* Extern variables ----------------------------------------------------------*/
-extern __IO uint8_t PrevXferComplete;
-/* Private function prototypes -----------------------------------------------*/
-/* Private functions ---------------------------------------------------------*/
-/*******************************************************************************
-* Function Name  : EP1_IN_PreXferComplete.
-* Description    : EP1 IN Callback Routine.
-* Input          : None.
-* Output         : None.
-* Return         : None.
-*******************************************************************************/
-void EP1_IN_PreXferComplete(void)
-{
-  /* Set the transfer complete token to inform upper layer that the current
-  transfer has been complete */
-  PrevXferComplete = 1;
-}
+#define CUSTOMHID_SIZ_REPORT_DESC               63
+#define CUSTOMHID_SIZ_HID_DESC                  0x09
+#define CUSTOMHID_OFF_HID_DESC                  0x1A
+
+#define VIRTUAL_COM_PORT_DATA_SIZE              64
+#define VIRTUAL_COM_PORT_INT_SIZE               8
+
+/* Exported functions ------------------------------------------------------- */
+extern const uint8_t Composite_DeviceDescriptor[COMPOSITE_SIZ_DEVICE_DESC];
+extern const uint8_t Composite_ConfigDescriptor[COMPOSITE_SIZ_CONFIG_DESC];
+extern const uint8_t Composite_ReportDescriptor[CUSTOMHID_SIZ_REPORT_DESC];
+
+#endif /* __USB_DESC_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
-

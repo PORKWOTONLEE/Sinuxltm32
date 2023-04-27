@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * @file    usb_desc.h
+  * @file    usb_prop.h
   * @author  MCD Application Team
   * @version V4.1.0
   * @date    26-May-2017
-  * @brief   Descriptor Header for Custom HID Demo
+  * @brief   All processing related to Composite USB Device demo
   ******************************************************************************
   * @attention
   *
@@ -37,35 +37,77 @@
 
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __USB_DESC_H
-#define __USB_DESC_H
+#ifndef __USB_PROP_H
+#define __USB_PROP_H
 
 /* Includes ------------------------------------------------------------------*/
 /* Exported types ------------------------------------------------------------*/
+typedef enum _HID_REQUESTS
+{
+  GET_REPORT = 1,
+  GET_IDLE,
+  GET_PROTOCOL,
+
+  SET_REPORT = 9,
+  SET_IDLE,
+  SET_PROTOCOL
+} HID_REQUESTS;
+
+typedef enum _CDC_REQUESTS
+{
+  SET_COMM_FEATURE = 2,
+  SET_LINE_CODING  = 32,
+  GET_LINE_CODING,
+  SET_CONTROL_LINE_STATE
+} CDC_REQUESTS;
+
+typedef struct
+{
+  uint32_t bitrate;
+  uint8_t  format;
+  uint8_t  paritytype;
+  uint8_t  datatype;
+}LINE_CODING;
+
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
-/* Exported define -----------------------------------------------------------*/
-#define USB_DEVICE_DESCRIPTOR_TYPE              0x01
-#define USB_CONFIGURATION_DESCRIPTOR_TYPE       0x02
-#define USB_STRING_DESCRIPTOR_TYPE              0x03
-#define USB_INTERFACE_DESCRIPTOR_TYPE           0x04
-#define USB_ENDPOINT_DESCRIPTOR_TYPE            0x05
-
-#define HID_DESCRIPTOR_TYPE                     0x21
-#define CUSTOMHID_SIZ_HID_DESC                  0x09
-#define CUSTOMHID_OFF_HID_DESC                  0x12
-
-#define CUSTOMHID_SIZ_DEVICE_DESC               18
-#define CUSTOMHID_SIZ_CONFIG_DESC               41
-#define CUSTOMHID_SIZ_REPORT_DESC               63
-
-#define STANDARD_ENDPOINT_DESC_SIZE             0x09
-
 /* Exported functions ------------------------------------------------------- */
-extern const uint8_t CustomHID_DeviceDescriptor[CUSTOMHID_SIZ_DEVICE_DESC];
-extern const uint8_t CustomHID_ConfigDescriptor[CUSTOMHID_SIZ_CONFIG_DESC];
-extern const uint8_t CustomHID_ReportDescriptor[CUSTOMHID_SIZ_REPORT_DESC];
+void Composite_init(void);
+void Composite_Reset(void);
+void Composite_SetConfiguration(void);
+void Composite_SetDeviceAddress (void);
+void Composite_Status_In (void);
+void Composite_Status_Out (void);
+RESULT Composite_Data_Setup(uint8_t);
+RESULT Composite_NoData_Setup(uint8_t);
+RESULT Composite_Get_Interface_Setting(uint8_t Interface, uint8_t AlternateSetting);
+uint8_t *Composite_GetDeviceDescriptor(uint16_t );
+uint8_t *Composite_GetConfigDescriptor(uint16_t);
+uint8_t *Composite_GetStringDescriptor(uint16_t);
+uint8_t *Composite_GetReportDescriptor(uint16_t Length);
+uint8_t *Composite_GetHIDDescriptor(uint16_t Length);
 
-#endif /* __USB_DESC_H */
+// HID Class Request Handle Function
+RESULT CustomHID_SetProtocol(void);
+uint8_t *CustomHID_GetProtocolValue(uint16_t Length);
+
+// CDC Class Request Handle Function
+uint8_t *Virtual_Com_Port_GetLineCoding(uint16_t Length);
+uint8_t *Virtual_Com_Port_SetLineCoding(uint16_t Length);
+
+/* Exported define -----------------------------------------------------------*/
+#define Composite_GetConfiguration          NOP_Process
+//#define Composite_SetConfiguration          NOP_Process
+#define Composite_GetInterface              NOP_Process
+#define Composite_SetInterface              NOP_Process
+#define Composite_GetStatus                 NOP_Process
+#define Composite_ClearFeature              NOP_Process
+#define Composite_SetEndPointFeature        NOP_Process
+#define Composite_SetDeviceFeature          NOP_Process
+//#define Composite_SetDeviceAddress          NOP_Process
+
+#define REPORT_DESCRIPTOR           0x22
+
+#endif /* __USB_PROP_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
