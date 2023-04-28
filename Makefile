@@ -74,6 +74,7 @@ Composite_USB_Device/Src/usb_istr.c \
 Composite_USB_Device/Src/usb_prop.c \
 Composite_USB_Device/Src/usb_desc.c \
 Composite_USB_Device/Src/usb_endp.c \
+P-Keyboard/Src/p_config.c \
 Userapp/Src/userapp.c
 
 # ASM sources
@@ -131,8 +132,8 @@ C_INCLUDES =  \
 -ISTD_Libraries/Drivers/STM32F10x_StdPeriph_Driver/Inc \
 -IUSB_Libraries/Inc \
 -IComposite_USB_Device/Inc \
+-IP-Keyboard/Inc \
 -IUserapp/Inc
-
 
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections

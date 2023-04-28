@@ -98,7 +98,7 @@
 #define  EP6_IN_Callback   NOP_Process
 #define  EP7_IN_Callback   NOP_Process
 
-#define  EP1_OUT_Callback   NOP_Process
+#define  EP1_OUT_Callback   EP1_OUT_Callback
 #define  EP2_OUT_Callback   EP2_OUT_Callback 
 #define  EP3_OUT_Callback   NOP_Process
 #define  EP4_OUT_Callback   NOP_Process

@@ -41,6 +41,7 @@
 #define __USB_DESC_H
 
 /* Includes ------------------------------------------------------------------*/
+#include "p_config.h"
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
@@ -56,6 +57,22 @@
 #define COMPOSITE_SIZ_DEVICE_DESC               18
 #define COMPOSITE_SIZ_CONFIG_DESC               115
 
+#if CUSTOM_LANGID_STRING == P_FALSE
+#define COMPOSITE_SIZ_STRING_LANGID             4
+#endif
+
+#if CUSTOM_VENDOR_STRING == P_FALSE
+#define COMPOSITE_SIZ_STRING_VENDOR             26
+#endif
+
+#if CUSTOM_DEVICE_STRING == P_FALSE
+#define COMPOSITE_SIZ_STRING_PRODUCT            22
+#endif
+
+#if CUSTOM_SERIAL_STRING == P_FLASE
+#define COMPOSITE_SIZ_STRING_SERIAL             12
+#endif
+
 #define CUSTOMHID_SIZ_REPORT_DESC               63
 #define CUSTOMHID_SIZ_HID_DESC                  0x09
 #define CUSTOMHID_OFF_HID_DESC                  0x1A
@@ -64,9 +81,25 @@
 #define VIRTUAL_COM_PORT_INT_SIZE               8
 
 /* Exported functions ------------------------------------------------------- */
+
 extern const uint8_t Composite_DeviceDescriptor[COMPOSITE_SIZ_DEVICE_DESC];
 extern const uint8_t Composite_ConfigDescriptor[COMPOSITE_SIZ_CONFIG_DESC];
-extern const uint8_t Composite_ReportDescriptor[CUSTOMHID_SIZ_REPORT_DESC];
+extern const uint8_t CustomHID_ReportDescriptor[CUSTOMHID_SIZ_REPORT_DESC];
+#if CUSTOM_LANGID_STRING == P_FALSE
+extern const uint8_t Composite_StringLangID[COMPOSITE_SIZ_STRING_LANGID];
+#endif
+
+#if CUSTOM_VENDOR_STRING == P_FALSE
+extern const uint8_t Composite_StringVendor[COMPOSITE_SIZ_STRING_VENDOR];
+#endif
+
+#if CUSTOM_DEVICE_STRING == P_FALSE
+extern const uint8_t Composite_StringProduct[COMPOSITE_SIZ_STRING_PRODUCT];
+#endif
+
+#if CUSTOM_SERIAL_STRING == P_FLASE
+extern uint8_t Composite_StringSerial[COMPOSITE_SIZ_STRING_SERIAL];
+#endif
 
 #endif /* __USB_DESC_H */
 

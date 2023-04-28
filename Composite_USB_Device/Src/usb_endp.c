@@ -47,8 +47,9 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Extern variables ----------------------------------------------------------*/
-extern __IO uint8_t PrevReportXferComplete;
-extern __IO uint8_t PrevComXferComplete;
+extern __IO uint8_t ReportXferComplete;
+extern __IO uint8_t ReportRecvComplete;
+extern __IO uint8_t ComXferComplete;
 extern __IO uint8_t ComRecvComplete;
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -63,7 +64,21 @@ void EP1_IN_Callback(void)
 {
   /* Set the transfer complete token to inform upper layer that the current
   transfer has been complete */
-  PrevReportXferComplete = 1;
+  ReportXferComplete = TRUE;
+}
+
+/*******************************************************************************
+* Function Name  : EP1_OUT_Callback.
+* Description    : EP1 OUT Callback Routine.
+* Input          : None.
+* Output         : None.
+* Return         : None.
+*******************************************************************************/
+void EP1_OUT_Callback(void)
+{
+  /* Set the transfer complete token to inform upper layer that the current
+  transfer has been complete */
+  ReportRecvComplete = TRUE;
 }
 
 /*******************************************************************************
@@ -77,7 +92,7 @@ void EP2_IN_Callback(void)
 {
   /* Set the transfer complete token to inform upper layer that the current
   transfer has been complete */
-  PrevComXferComplete = 1;
+  ComXferComplete = TRUE;
 }
 
 /*******************************************************************************
@@ -91,7 +106,7 @@ void EP2_OUT_Callback(void)
 {
   /* Set the transfer complete token to inform upper layer that the current
   transfer has been complete */
-  ComRecvComplete = 1;
+  ComRecvComplete = TRUE;
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

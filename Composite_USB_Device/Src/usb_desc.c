@@ -39,6 +39,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "usb_lib.h"
 #include "usb_desc.h"
+#include "p_config.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -65,11 +66,11 @@ const uint8_t Composite_DeviceDescriptor[COMPOSITE_SIZ_DEVICE_DESC] =
     0x57,
     0x00,                       /*bcdDevice rel. 2.00*/
     0x02,
-    0,                          /*Index of string descriptor describing
+    1,                          /*Index of string descriptor describing
                                               manufacturer */
-    0,                          /*Index of string descriptor describing
+    2,                          /*Index of string descriptor describing
                                              product*/
-    0,                          /*Index of string descriptor describing the
+    3,                          /*Index of string descriptor describing the
                                              device serial number */
     0x01                        /*bNumConfigurations*/
   }
@@ -113,7 +114,7 @@ const uint8_t Composite_ConfigDescriptor[COMPOSITE_SIZ_CONFIG_DESC] =
     0x03,         /* bInterfaceClass: HID */
     0x01,         /* bInterfaceSubClass : 1=BOOT, 0=no boot */
     0x01,         /* nInterfaceProtocol : 0=none, 1=keyboard, 2=mouse */
-    0,            /* iInterface: Index of string descriptor */
+    2,            /* iInterface: Index of string descriptor */
     /******************** Descriptor of Custom HID HID ********************/
     /* 26 */
     0x09,         /* bLength: HID Descriptor size */
@@ -131,7 +132,7 @@ const uint8_t Composite_ConfigDescriptor[COMPOSITE_SIZ_CONFIG_DESC] =
     USB_ENDPOINT_DESCRIPTOR_TYPE,	/* bDescriptorType: Endpoint descriptor type */
     0x81,          /* bEndpointAddress: Endpoint Address (IN1) */
     0x03,          /* bmAttributes: Interrupt endpoint */
-    0x08,          /* wMaxPacketSize: 8 Bytes max */
+    0x40,          /* wMaxPacketSize: 64 Bytes max */
     0x00,
     0x20,          /* bInterval: Polling Interval (32 ms) */
     /* 42 */
@@ -139,7 +140,7 @@ const uint8_t Composite_ConfigDescriptor[COMPOSITE_SIZ_CONFIG_DESC] =
     USB_ENDPOINT_DESCRIPTOR_TYPE,	/* bDescriptorType: Endpoint descriptor type */
     0x01,	/* bEndpointAddress: Endpoint Address (OUT1) */
     0x03,	/* bmAttributes: Interrupt endpoint */
-    0x02,	/* wMaxPacketSize: 2 Bytes max  */
+    0x40,	/* wMaxPacketSize: 64 Bytes max  */
     0x00,
     0x20,	/* bInterval: Polling Interval (32 ms) */
 
@@ -232,7 +233,7 @@ const uint8_t Composite_ConfigDescriptor[COMPOSITE_SIZ_CONFIG_DESC] =
   };
 
 /* Composite_ConfigDescriptor */
-const uint8_t Composite_ReportDescriptor[CUSTOMHID_SIZ_REPORT_DESC] ={
+const uint8_t CustomHID_ReportDescriptor[CUSTOMHID_SIZ_REPORT_DESC] ={
     0x05, 0x01,           // Usage Page (Generic Desktop)
     0x09, 0x06,           // Usage (Keyboard)
     0xA1, 0x01,           // Collection (Application)
@@ -270,6 +271,47 @@ const uint8_t Composite_ReportDescriptor[CUSTOMHID_SIZ_REPORT_DESC] ={
 
     0xC0                  // End Collection
 };
+
+#if CUSTOM_LANGID_STRING == P_FALSE
+/* USB String Descriptors (optional) */
+const uint8_t Composite_StringLangID[COMPOSITE_SIZ_STRING_LANGID] =
+  {
+    COMPOSITE_SIZ_STRING_LANGID,
+    USB_STRING_DESCRIPTOR_TYPE,
+    0x09,
+    0x04
+  }; /* LangID = 0x0409: U.S. English */
+#endif
+
+#if CUSTOM_VENDOR_STRING == P_FALSE
+const uint8_t Composite_StringVendor[COMPOSITE_SIZ_STRING_VENDOR] =
+  {
+    COMPOSITE_SIZ_STRING_VENDOR, /* Size of Vendor string */
+    USB_STRING_DESCRIPTOR_TYPE,  /* bDescriptorType*/
+    /* Manufacturer: "STMicroelectronics" */
+    'P', 0, 'O', 0, 'R', 0, 'K', 0, 'W', 0, 'O', 0, 'T', 0, 'O', 0,
+    'N', 0, 'L', 0, 'E', 0, 'E', 0
+  };
+#endif
+
+#if CUSTOM_DEVICE_STRING == P_FALSE
+const uint8_t Composite_StringProduct[COMPOSITE_SIZ_STRING_PRODUCT] =
+  {
+    COMPOSITE_SIZ_STRING_PRODUCT, /* bLength */
+    USB_STRING_DESCRIPTOR_TYPE,   /* bDescriptorType */
+    'P', 0, '-', 0, 'K', 0, 'e', 0, 'y', 0, 'B', 0, 'o', 0,
+    'a', 0, 'r', 0, 'd', 0
+  };
+#endif
+
+#if CUSTOM_SERIAL_STRING == P_FALSE
+uint8_t Composite_StringSerial[COMPOSITE_SIZ_STRING_SERIAL] =
+  {
+    COMPOSITE_SIZ_STRING_SERIAL, /* bLength */
+    USB_STRING_DESCRIPTOR_TYPE,  /* bDescriptorType */
+    'Q', 0, 'Y', 0, 'F', 0, 'X', 0, 'B', 0
+  };
+#endif
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 

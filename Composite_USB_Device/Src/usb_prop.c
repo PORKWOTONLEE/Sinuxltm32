@@ -108,7 +108,7 @@ ONE_DESCRIPTOR Config_Descriptor =
 
 ONE_DESCRIPTOR Composite_Report_Descriptor =
   {
-    (uint8_t *)Composite_ReportDescriptor,
+    (uint8_t *)CustomHID_ReportDescriptor,
     CUSTOMHID_SIZ_REPORT_DESC
   };
 
@@ -116,6 +116,33 @@ ONE_DESCRIPTOR Composite_Hid_Descriptor =
   {
     (uint8_t*)Composite_ConfigDescriptor + CUSTOMHID_OFF_HID_DESC,
     CUSTOMHID_SIZ_HID_DESC
+  };
+
+ONE_DESCRIPTOR String_Descriptor[4] =
+  {
+#if CUSTOM_LANGID_STRING == P_FALSE
+    {(uint8_t*)Composite_StringLangID, COMPOSITE_SIZ_STRING_LANGID},
+#else
+    {(uint8_t*)Composite_StringLangID, CUSTOM_SIZ_STRING_LANGID},
+#endif
+
+#if CUSTOM_VENDOR_STRING == P_FALSE
+    {(uint8_t*)Composite_StringVendor, COMPOSITE_SIZ_STRING_VENDOR},
+#else
+    {(uint8_t*)Composite_StringVendor, CUSTOM_SIZ_STRING_VENDOR},
+#endif
+
+#if CUSTOM_DEVICE_STRING == P_FALSE
+    {(uint8_t*)Composite_StringProduct, COMPOSITE_SIZ_STRING_PRODUCT},
+#else
+    {(uint8_t*)Composite_StringProduct, CUSTOM_SIZ_STRING_PRODUCT},
+#endif
+
+#if CUSTOM_SERIAL_STRING == P_FLASE
+    {(uint8_t*)Composite_StringSerial, COMPOSITE_SIZ_STRING_SERIAL}
+#else
+    {(uint8_t*)Composite_StringSerial, CUSTOM_SIZ_STRING_SERIAL}
+#endif
   };
 
 LINE_CODING linecoding =
@@ -414,7 +441,15 @@ uint8_t *Composite_GetConfigDescriptor(uint16_t Length)
 *******************************************************************************/
 uint8_t *Composite_GetStringDescriptor(uint16_t Length)
 {
-  return NULL;
+  uint8_t wValue0 = pInformation->USBwValue0;
+  if (wValue0 >= 4)
+  {
+    return NULL;
+  }
+  else
+  {
+    return Standard_GetDescriptorData(Length, &String_Descriptor[wValue0]);
+  }
 }
 
 /*******************************************************************************
