@@ -22,6 +22,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h"
+#include "stm32f10x_usart.h"
+#include "bsp_uart.h"
 
 /** @addtogroup STM32F10x_StdPeriph_Template
   * @{
@@ -155,4 +157,19 @@ void SysTick_Handler(void)
   * @}
   */ 
 
+/**
+  * @brief  This function handles USART interrupt request.
+  * @param  None
+  * @retval None
+  */
+void USART1_IRQHandler(void)
+{
+    uint8_t rev_char;
+
+    if (USART_GetFlagStatus(USARTx, USART_IT_RXNE))
+    {
+        rev_char = USART_ReceiveData(USARTx); 
+        USART_SendData(USARTx, rev_char);
+    }
+}
 

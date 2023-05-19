@@ -66,7 +66,8 @@ Userapp/Src/bsp_led.c \
 Userapp/Src/bsp_key.c \
 Userapp/Src/userapp.c \
 Userapp/Src/bsp_clkconfig.c \
-Userapp/Src/bsp_exti.c
+Userapp/Src/bsp_exti.c \
+Userapp/Src/bsp_uart.c
 
 # ASM sources
 ASM_SOURCES =  \
