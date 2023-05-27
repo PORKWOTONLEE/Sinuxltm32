@@ -68,7 +68,8 @@ Userapp/Src/userapp.c \
 Userapp/Src/bsp_clkconfig.c \
 Userapp/Src/bsp_exti.c \
 Userapp/Src/bsp_uart.c \
-Userapp/Src/bsp_dma.c
+Userapp/Src/bsp_dma.c \
+Userapp/Src/bsp_dma_uart.c
 
 # ASM sources
 ASM_SOURCES =  \

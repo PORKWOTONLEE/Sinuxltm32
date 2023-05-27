@@ -5,7 +5,7 @@
 #include "bsp_uart.h"
 #include "stm32f10x_usart.h"
 
-static void NVIC_Configuration(void)
+void NVIC_Configuration(void)
 {
     NVIC_InitTypeDef NVIC_InitStructure;
 

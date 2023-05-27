@@ -21,7 +21,7 @@
 #define USART_IRQ             USART1_IRQn 
 #define USART_IRQHandler      USART1_IRQHandler 
 
-static void NVIC_Configuration(void);
+void NVIC_Configuration(void);
 void USART_Config(void);
 void USART_SendByte(USART_TypeDef *pUSARTx, uint8_t ch);
 void USART_SendString(USART_TypeDef *pUSARTx, char *str);

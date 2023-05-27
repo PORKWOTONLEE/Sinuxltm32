@@ -1,35 +1,30 @@
 #include "userapp.h"
-#include "bsp_dma.h"
 #include "bsp_clkconfig.h"
+#include "bsp_uart.h"
+#include "bsp_dma_uart.h"
 #include "bsp_led.h"
 #include "stm32f10x.h"
 #include "stm32f10x_dma.h"
+#include "stm32f10x_usart.h"
 #include <stdint.h>
 
 int userapp(void)
 {
     LED_GPIO_Init();
 
-    Delay(3000000);    
-
     LED_PURPLE;
 
-    DMA_Config();
+    USART_Config();
 
-    while (DMA_GetFlagStatus(DMA_FLAG_TC) == RESET);
+    Delay(5000000);
 
-    Delay(3000000);    
-
-    if (BufferCompare(aSRC_Const_Buffer, aDST_Buffer, BUFFER_SIZE) == 0)
-    {
-        LED_GREEN;
-    }
-    else 
-    {
-        LED_RED;
-    }
+    UART_DMA_Config();
 
     while (1)
     {
+        LED_GREEN;
+        Delay(5000000);
+        LED_OFF;
+        Delay(5000000);
     }
 }
